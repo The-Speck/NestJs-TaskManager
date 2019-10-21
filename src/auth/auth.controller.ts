@@ -3,7 +3,6 @@ import {
   Controller,
   Post,
   UseFilters,
-  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import AuthBadRequestExceptionFilter from '../exceptions/http/AuthBadRequestExceptionFilter';
@@ -15,9 +14,10 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  @UsePipes(ValidationPipe)
   @UseFilters(AuthBadRequestExceptionFilter)
-  async signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
+  async signUp(
+    @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
+  ): Promise<void> {
     return this.authService.signUp(authCredentialsDto);
   }
 }
