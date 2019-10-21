@@ -1,5 +1,7 @@
-import { IDatabaseEnvVar } from '../database/database.interface';
+import { IDatabaseOptions } from '../database/database.interface';
 
-export interface IConfigOptions extends IDatabaseEnvVar {
+export type TEnvironments = 'development' | 'production' | 'test' | 'uat';
+
+export interface IConfigOptions extends IDatabaseOptions {
   APP_ENV: string;
 }
