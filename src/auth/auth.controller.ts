@@ -6,7 +6,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import AuthBadRequestExceptionFilter from '../exceptions/http_execptions/AuthBadRequestExceptionFilter';
+import AuthBadRequestExceptionFilter from '../exceptions/http/AuthBadRequestExceptionFilter';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
