@@ -11,6 +11,7 @@ export class AuthCredentialsDto {
    * Passwords will contain at least 1 upper case letter
    * Passwords will contain at least 1 lower case letter
    * Passwords will contain at least 1 number or special character
+   * Passwords will have have a length of 8-20 characters
    */
   @IsString()
   @MinLength(8)
