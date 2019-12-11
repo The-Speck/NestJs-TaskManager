@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '../config/config.service';
 
 function DatabaseOrmModule(): DynamicModule {
   return TypeOrmModule.forRootAsync({
     inject: [ConfigService],
-    useFactory: async (configService: ConfigService) => {
+    useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
       const configOptions = configService.read();
       return {
         type: configOptions.DB_TYPE,

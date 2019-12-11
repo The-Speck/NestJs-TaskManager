@@ -1,12 +1,12 @@
 import { Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
-import { IConfigOptions, TEnvironments } from './config.interface';
+import { ConfigOptions, TEnvironments } from './config.interface';
 
 export class ConfigService {
   public static readonly DEVELOPMENT: 'development' = 'development';
 
-  private readonly envConfig: IConfigOptions;
+  private readonly envConfig: ConfigOptions;
   private readonly logger = new Logger(ConfigService.name);
 
   constructor() {
@@ -16,7 +16,7 @@ export class ConfigService {
     this.logger.log(`Starting server with ${environment} settings`);
   }
 
-  public read(): IConfigOptions {
+  public read(): ConfigOptions {
     return this.envConfig;
   }
 
@@ -32,7 +32,7 @@ export class ConfigService {
     return (process.env.NODE_ENV as TEnvironments) || ConfigService.DEVELOPMENT;
   }
 
-  private getConfigOptions(environment: TEnvironments): IConfigOptions {
+  private getConfigOptions(environment: TEnvironments): ConfigOptions {
     const data: any = dotenv.parse(fs.readFileSync(`${environment}.env`));
     return this.populateConfigOptions(data, environment);
   }
@@ -40,7 +40,7 @@ export class ConfigService {
   private populateConfigOptions(
     data: any,
     environment: TEnvironments,
-  ): IConfigOptions {
+  ): ConfigOptions {
     data.APP_ENV = environment;
     data.DB_PORT = parseInt(data.DB_PORT, 10);
     return data;

@@ -5,5 +5,5 @@ export enum TaskStatus {
 }
 
 export function createTaskStatusArray(): string[] {
-  return Object.values(TaskStatus).filter(k => typeof k === 'string');
+  return Object.values(TaskStatus).filter((k: any) => typeof k === 'string');
 }

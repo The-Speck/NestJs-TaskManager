@@ -13,7 +13,7 @@ export class AuthBadRequestExceptionFilter implements ExceptionFilter {
   private static readonly PASSWORD_TEXT: string = 'password';
   private static readonly PASSWORD_CENSORED = '******';
 
-  catch(exception: BadRequestException, host: ArgumentsHost) {
+  catch(exception: BadRequestException, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
@@ -23,7 +23,7 @@ export class AuthBadRequestExceptionFilter implements ExceptionFilter {
     response.status(status).json(exception.getResponse());
   }
 
-  private hidePasswordIfExists(exception: BadRequestException) {
+  private hidePasswordIfExists(exception: BadRequestException): void {
     const message: ValidationError = this.findPasswordMessage(exception);
 
     if (message) {
@@ -31,7 +31,7 @@ export class AuthBadRequestExceptionFilter implements ExceptionFilter {
     }
   }
 
-  private hidePassword(message: ValidationError) {
+  private hidePassword(message: ValidationError): void {
     message.value = AuthBadRequestExceptionFilter.PASSWORD_CENSORED;
     const authCredentialsDto: AuthCredentialsDto = message.target as AuthCredentialsDto;
     authCredentialsDto.password =
