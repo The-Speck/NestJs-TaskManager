@@ -41,7 +41,8 @@ export class AuthBadRequestExceptionFilter implements ExceptionFilter {
   private findPasswordMessage(exception: BadRequestException): ValidationError {
     const jsonResponse: any = exception.getResponse();
     return jsonResponse.message.find(
-      m => m.property === AuthBadRequestExceptionFilter.PASSWORD_TEXT,
+      (m: ValidationError) =>
+        m.property === AuthBadRequestExceptionFilter.PASSWORD_TEXT,
     );
   }
 }
