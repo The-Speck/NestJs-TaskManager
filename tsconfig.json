@@ -11,9 +11,17 @@
     "baseUrl": "./",
     "incremental": true,
     "mapRoot": "compiled",
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "strict": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["node_modules", "dist"]
 }
