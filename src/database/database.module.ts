@@ -6,14 +6,21 @@ function DatabaseOrmModule(): DynamicModule {
   return TypeOrmModule.forRootAsync({
     inject: [ConfigService],
     useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
-      const configOptions = configService.read();
+      const {
+        DB_TYPE,
+        DB_HOST,
+        DB_NAME,
+        DB_PASSWORD,
+        DB_PORT,
+        DB_USERNAME,
+      } = configService.read();
       return {
-        type: configOptions.DB_TYPE,
-        host: configOptions.DB_HOST,
-        port: configOptions.DB_PORT,
-        username: configOptions.DB_USERNAME,
-        password: configOptions.DB_PASSWORD,
-        database: configOptions.DB_NAME,
+        type: DB_TYPE,
+        host: DB_HOST,
+        port: DB_PORT,
+        username: DB_USERNAME,
+        password: DB_PASSWORD,
+        database: DB_NAME,
         entities: [__dirname + '/../**/*.entity.{js,ts}'],
         synchronize: true,
       };
