@@ -8,6 +8,7 @@ import {
 import AuthBadRequestExceptionFilter from '../exceptions/http/AuthBadRequestExceptionFilter';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import AccessToken from './interface/access-token.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +26,7 @@ export class AuthController {
   @UseFilters(AuthBadRequestExceptionFilter)
   async signIn(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
-  ): Promise<string | null> {
+  ): Promise<AccessToken> {
     return this.authService.signIn(authCredentialsDto);
   }
 }
