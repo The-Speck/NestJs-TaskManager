@@ -7,6 +7,7 @@ import { ConfigService } from '../config/config.service';
 import AuthBadRequestExceptionFilter from '../exceptions/http/AuthBadRequestExceptionFilter';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtStrategy } from './jwt.strategy';
 import { UserRepository } from './user.repository';
 
 function DynamicJwtModule(): DynamicModule {
@@ -31,10 +32,12 @@ function DynamicJwtModule(): DynamicModule {
   controllers: [AuthController],
   providers: [
     AuthService,
+    JwtStrategy,
     {
       provide: APP_FILTER,
       useClass: AuthBadRequestExceptionFilter,
     },
   ],
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

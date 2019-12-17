@@ -18,6 +18,14 @@ export class ConfigService {
     this.logger.log(`Starting server with ${environment} settings`);
   }
 
+  public get(key: string): string | number {
+    if (this.isValidKey(key)) {
+      return this.configOptions[key];
+    } else {
+      throw new ConfigError(`Invalid Key for Config Options: ${key}`);
+    }
+  }
+
   public read(): ConfigOptions {
     return this.configOptions;
   }
@@ -69,5 +77,9 @@ export class ConfigService {
       );
     }
     return true;
+  }
+
+  private isValidKey(key: string): key is keyof ConfigOptions {
+    return key in this.configOptions;
   }
 }
