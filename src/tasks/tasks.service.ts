@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../auth/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { taskErrorMessage } from './task-message.error';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
 import { TaskRepository } from './task.repository';
@@ -51,9 +52,7 @@ export class TasksService {
       return task.save();
     } catch (error) {
       this.logger.error(
-        `Failed to update task for user ${
-          user.username
-        }. Task: ${JSON.stringify(task)}`,
+        taskErrorMessage(user, 'update a task', 'Task', task),
         error.stack,
       );
       throw new InternalServerErrorException();
@@ -67,9 +66,7 @@ export class TasksService {
       result = await this.taskRepository.delete({ id, userId: user.id });
     } catch (error) {
       this.logger.error(
-        `Failed to delete task for user ${
-          user.username
-        }. Task Id: ${JSON.stringify(id)}`,
+        taskErrorMessage(user, 'delete a task', 'Task Id', id),
         error.stack,
       );
       throw new InternalServerErrorException();

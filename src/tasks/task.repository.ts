@@ -3,6 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { User } from '../auth/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { taskErrorMessage } from './task-message.error';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
 
@@ -31,9 +32,7 @@ export class TaskRepository extends Repository<Task> {
       return await query.getMany();
     } catch (error) {
       this.logger.error(
-        `Failed to get tasks for user ${
-          user.username
-        }. Filters: ${JSON.stringify(filterDto)}`,
+        taskErrorMessage(user, 'get tasks', 'Filters', filterDto),
         error.stack,
       );
       throw new InternalServerErrorException();
@@ -53,9 +52,7 @@ export class TaskRepository extends Repository<Task> {
       await task.save();
     } catch (error) {
       this.logger.error(
-        `Failed to create a task for user ${
-          user.username
-        }. Task: ${JSON.stringify(createTaskDto)}`,
+        taskErrorMessage(user, 'create a task', 'Task', createTaskDto),
         error.stack,
       );
       throw new InternalServerErrorException();
