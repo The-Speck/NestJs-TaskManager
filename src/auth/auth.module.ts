@@ -1,10 +1,8 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '../config/config.service';
-import AuthBadRequestExceptionFilter from '../exceptions/http/AuthBadRequestExceptionFilter';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
@@ -30,14 +28,7 @@ function DynamicJwtModule(): DynamicModule {
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    {
-      provide: APP_FILTER,
-      useClass: AuthBadRequestExceptionFilter,
-    },
-  ],
+  providers: [AuthService, JwtStrategy],
   exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

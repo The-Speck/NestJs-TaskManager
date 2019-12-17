@@ -11,11 +11,11 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import AccessToken from './interface/access-token.interface';
 
 @Controller('auth')
+@UseFilters(AuthBadRequestExceptionFilter)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  @UseFilters(AuthBadRequestExceptionFilter)
   async signUp(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
   ): Promise<void> {
@@ -23,7 +23,6 @@ export class AuthController {
   }
 
   @Post('/signin')
-  @UseFilters(AuthBadRequestExceptionFilter)
   async signIn(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
   ): Promise<AccessToken> {
