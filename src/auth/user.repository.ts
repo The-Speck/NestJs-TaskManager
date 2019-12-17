@@ -22,11 +22,16 @@ export class UserRepository extends Repository<User> {
     try {
       await user.save();
     } catch (error) {
-      // TODO: Create an error handler
       if (error.code === '23505') {
         throw new ConflictException('Username already exists');
       } else {
-        throw new InternalServerErrorException(error);
+        this.logger.error(
+          `Unknown Error code (${error.code}) when saving user ${
+            user.username
+          }`,
+          error.stack,
+        );
+        throw new InternalServerErrorException();
       }
     }
 
@@ -38,8 +43,10 @@ export class UserRepository extends Repository<User> {
     const user = await this.findOne({ username });
 
     if (user && user.isValidPassword(password)) {
+      this.logger.log(`${user.username} successfully logged in`);
       return user.username;
     } else {
+      this.logger.log(`${authCredentialsDto.username} failed to log in`);
       return null;
     }
   }
